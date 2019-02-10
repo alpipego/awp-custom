@@ -1,0 +1,19 @@
+{
+    "name": "alpipego/awp-custom",
+    "description": "Custom Post Type and Taxonomy Abstraction",
+    "type": "library",
+    "require": {
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Alpipego\\AWP\\Custom\\": "src"
+        }
+    },
+    "authors": [
+        {
+            "name": "Alexander Goller",
+            "email": "alpipego@gmail.com"
+        }
+    ]
+}
