@@ -44,71 +44,83 @@ namespace Alpipego\AWP\Custom;
  */
 class PostType extends AbstractCustom
 {
-    private $postType;
+	private $postType;
+	protected $capability_type = 'post';
 
-    public function __construct(string $postType, string $singular, string $plural)
-    {
-        $this->postType = $postType;
-        $this->singular = $singular;
-        $this->plural   = $plural;
+	public function __construct(string $postType, string $singular, string $plural)
+	{
+		$this->postType = $postType;
+		$this->singular = $singular;
+		$this->plural   = $plural;
 
-        $this->labels       = $this->defaultLabels();
-        $this->capabilities = $this->defaultCaps();
-    }
+		$this->labels = $this->defaultLabels();
+	}
 
-    protected function defaultLabels() : array
-    {
-        return [
-            'name'               => sprintf(_x('%s', 'General CPT Name', 'tg'), $this->plural),
-            'singular_name'      => sprintf(_x('%s', 'Singular CPT Name', 'tg'), $this->singular),
-            'add_new'            => __('Add New', 'tg'),
-            'add_new_item'       => sprintf(__('Add new %s', 'tg'), $this->singular),
-            'edit_item'          => sprintf(__('Edit %s', 'tg'), $this->singular),
-            'new_item'           => sprintf(__('New %s', 'tg'), $this->singular),
-            'view_item'          => sprintf(__('View %s', 'tg'), $this->singular),
-            'search_items'       => sprintf(__('Search %s', 'tg'), $this->plural),
-            'not_found'          => sprintf(__('No %s found', 'tg'), $this->plural),
-            'not_found_in_trash' => sprintf(__('No %s found in Trash', 'tg'), $this->plural),
-            'parent_item_colon'  => sprintf(__('Parent: %s', 'tg'), $this->singular),
-            'all_items'          => sprintf(__('All %s', 'tg'), $this->plural),
-            'archives'           => sprintf(__('%s Archive', 'tg'), $this->singular),
-            'menu_name'          => sprintf(_x('%s', 'Menu Name', 'tg'), $this->plural),
-            'name_admin_bar'     => sprintf(_x('%s', 'Admin Bar Name', 'tg'), $this->singular),
-        ];
-    }
+	protected function defaultLabels() : array
+	{
+		return [
+			'name'               => sprintf(_x('%s', 'General CPT Name', 'tg'), $this->plural),
+			'singular_name'      => sprintf(_x('%s', 'Singular CPT Name', 'tg'), $this->singular),
+			'add_new'            => __('Add New', 'tg'),
+			'add_new_item'       => sprintf(__('Add new %s', 'tg'), $this->singular),
+			'edit_item'          => sprintf(__('Edit %s', 'tg'), $this->singular),
+			'new_item'           => sprintf(__('New %s', 'tg'), $this->singular),
+			'view_item'          => sprintf(__('View %s', 'tg'), $this->singular),
+			'search_items'       => sprintf(__('Search %s', 'tg'), $this->plural),
+			'not_found'          => sprintf(__('No %s found', 'tg'), $this->plural),
+			'not_found_in_trash' => sprintf(__('No %s found in Trash', 'tg'), $this->plural),
+			'parent_item_colon'  => sprintf(__('Parent: %s', 'tg'), $this->singular),
+			'all_items'          => sprintf(__('All %s', 'tg'), $this->plural),
+			'archives'           => sprintf(__('%s Archive', 'tg'), $this->singular),
+			'menu_name'          => sprintf(_x('%s', 'Menu Name', 'tg'), $this->plural),
+			'name_admin_bar'     => sprintf(_x('%s', 'Admin Bar Name', 'tg'), $this->singular),
+		];
+	}
 
-    protected function defaultCaps() : array
-    {
-        return [
-            // meta caps
-            'edit_post'              => 'edit_' . $this->postType,
-            'read_post'              => 'read_' . $this->postType,
-            'delete_post'            => 'delete_' . $this->postType,
-            // primitive
-            'edit_posts'             => 'edit_' . $this->postType . 's',
-            'edit_others_posts'      => 'edit_others_' . $this->postType . 's',
-            'read_private_posts'     => 'read_private_' . $this->postType,
-            'publish_posts'          => 'publish_' . $this->postType . 's',
-            // additional primitive
-            'read'                   => 'read',
-            'delete_posts'           => 'delete_' . $this->postType . 's',
-            'delete_private_posts'   => 'delete_private_' . $this->postType . 's',
-            'delete_published_posts' => 'delete_published_' . $this->postType . 's',
-            'delete_others_posts'    => 'delete_others_' . $this->postType . 's',
-            'edit_private_posts'     => 'edit_private_' . $this->postType . 's',
-            'edit_published_posts'   => 'edit_published_' . $this->postType . 's',
-            'create_posts'           => 'create_' . $this->postType . 's',
-        ];
-    }
+	protected function defaultCaps() : array
+	{
+		if (is_array($this->capability_type)) {
+			$capabilityTypeSingular = $this->capability_type[0];
+			$capabilityTypePlural   = $this->capability_type[1];
+		} else {
+			$capabilityTypeSingular = $this->capability_type;
+			$capabilityTypePlural   = $this->capability_type . 's';
+		}
 
-    /**
-     * @return \WP_Error|\WP_Post_Type
-     */
-    public function create()
-    {
-        $postType               = register_post_type($this->postType, $this->mapArgs());
-        $postType->capabilities = $this->capabilities;
+		return [
+			// meta caps
+			'edit_post'              => 'edit_' . $capabilityTypeSingular,
+			'read_post'              => 'read_' . $capabilityTypeSingular,
+			'delete_post'            => 'delete_' . $capabilityTypeSingular,
+			// primitive
+			'edit_posts'             => 'edit_' . $capabilityTypePlural,
+			'edit_others_posts'      => 'edit_others_' . $capabilityTypePlural,
+			'read_private_posts'     => 'read_private_' . $capabilityTypeSingular,
+			'publish_posts'          => 'publish_' . $capabilityTypePlural,
+			// additional primitive
+			'read'                   => 'read',
+			'delete_posts'           => 'delete_' . $capabilityTypePlural,
+			'delete_private_posts'   => 'delete_private_' . $capabilityTypePlural,
+			'delete_published_posts' => 'delete_published_' . $capabilityTypePlural,
+			'delete_others_posts'    => 'delete_others_' . $capabilityTypePlural,
+			'edit_private_posts'     => 'edit_private_' . $capabilityTypePlural,
+			'edit_published_posts'   => 'edit_published_' . $capabilityTypePlural,
+			'create_posts'           => 'create_' . $capabilityTypePlural,
+		];
+	}
 
-        return $postType;
-    }
+	/**
+	 * @return \WP_Error|\WP_Post_Type
+	 */
+	public function create()
+	{
+		if ($this->capability_type !== 'post' && empty($this->capabilities)) {
+			$this->capabilities = $this->defaultCaps();
+		}
+
+		$postType               = register_post_type($this->postType, $this->mapArgs());
+		$postType->capabilities = $this->capabilities;
+
+		return $postType;
+	}
 }
