@@ -74,16 +74,7 @@ abstract class AbstractCustom
 
 	protected function mapArgs() : array
 	{
-		$args       = [];
-		$unfiltered = array_merge($this->args, ['labels' => $this->labels], ['capabilities' => $this->capabilities]);
-		foreach ($unfiltered as $key => $arg) {
-			if (is_array($arg)) {
-				$arg = array_unique($arg);
-			}
-			$args[$key] = $arg;
-		}
-
-		return $args;
+		return array_merge($this->args, ['labels' => $this->labels], ['capabilities' => $this->capabilities]);
 	}
 
 	protected function labels(array $labels = [])
