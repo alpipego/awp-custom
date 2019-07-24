@@ -21,7 +21,7 @@ namespace Alpipego\AWP\Custom;
  * @method self publicly_queryable(bool $publicly_queryable)
  * @method self show_ui(bool $show_ui)
  * @method self show_in_nav_menus(bool $show_in_nav_menus)
- * @method self show_in_menu(bool $show_in_menu)
+ * @method self show_in_menu(bool|string $show_in_menu)
  * @method self show_in_admin_bar(bool $show_in_admin_bar)
  * @method self menu_position(int $public)
  * @method self menu_icon(string $menu_icon)
@@ -32,7 +32,7 @@ namespace Alpipego\AWP\Custom;
  * @method self supports(bool | array $supports)
  * @method self register_meta_box_cb(callable $register_meta_box_cb)
  * @method self taxonomies(array $taxonomies)
- * @method self has_archive(bool $has_archive)
+ * @method self has_archive(bool|string $has_archive)
  * @method self rewrite(bool | array $rewrite)
  * @method self permalink_epmask(bool $permalink_epmask)
  * @method self query_var(bool | string $query_var)
@@ -59,21 +59,34 @@ class PostType extends AbstractCustom
 	protected function defaultLabels() : array
 	{
 		return [
-			'name'               => sprintf(_x('%s', 'General CPT Name', 'tg'), $this->plural),
-			'singular_name'      => sprintf(_x('%s', 'Singular CPT Name', 'tg'), $this->singular),
-			'add_new'            => __('Add New', 'tg'),
-			'add_new_item'       => sprintf(__('Add new %s', 'tg'), $this->singular),
-			'edit_item'          => sprintf(__('Edit %s', 'tg'), $this->singular),
-			'new_item'           => sprintf(__('New %s', 'tg'), $this->singular),
-			'view_item'          => sprintf(__('View %s', 'tg'), $this->singular),
-			'search_items'       => sprintf(__('Search %s', 'tg'), $this->plural),
-			'not_found'          => sprintf(__('No %s found', 'tg'), $this->plural),
-			'not_found_in_trash' => sprintf(__('No %s found in Trash', 'tg'), $this->plural),
-			'parent_item_colon'  => sprintf(__('Parent: %s', 'tg'), $this->singular),
-			'all_items'          => sprintf(__('All %s', 'tg'), $this->plural),
-			'archives'           => sprintf(__('%s Archive', 'tg'), $this->singular),
-			'menu_name'          => sprintf(_x('%s', 'Menu Name', 'tg'), $this->plural),
-			'name_admin_bar'     => sprintf(_x('%s', 'Admin Bar Name', 'tg'), $this->singular),
+			'name'                     => sprintf(_x('%s', 'General CPT Name', 'awp-custom'), $this->plural),
+			'singular_name'            => sprintf(_x('%s', 'Singular CPT Name', 'awp-custom'), $this->singular),
+			'add_new'                  => __('Add New', 'awp-custom'),
+			'add_new_item'             => sprintf(__('Add new %s', 'awp-custom'), $this->singular),
+			'edit_item'                => sprintf(__('Edit %s', 'awp-custom'), $this->singular),
+			'new_item'                 => sprintf(__('New %s', 'awp-custom'), $this->singular),
+			'view_item'                => sprintf(__('View %s', 'awp-custom'), $this->singular),
+			'view_items'               => sprintf(__('View %s', 'awp-custom'), $this->plural),
+			'search_items'             => sprintf(__('Search %s', 'awp-custom'), $this->plural),
+			'not_found'                => sprintf(__('No %s found', 'awp-custom'), $this->plural),
+			'not_found_in_trash'       => sprintf(__('No %s found in Trash', 'awp-custom'), $this->plural),
+			'parent_item_colon'        => sprintf(__('Parent: %s', 'awp-custom'), $this->singular),
+			'all_items'                => sprintf(__('All %s', 'awp-custom'), $this->plural),
+			'archives'                 => sprintf(__('%s Archive', 'awp-custom'), $this->singular),
+			'attributes'               => sprintf(__('%s Attributes', 'awp-custom'), $this->singular),
+			'insert_into_item'         => sprintf(__('Insert into %s', 'awp-custom'), $this->singular),
+			'uploaded_to_this_item'    => sprintf(__('Uploaded to this %s', 'awp-custom'), $this->singular),
+			'featured_image'           => __('Featured Image', 'awp-custom'),
+			'set_featured_image'       => __('Set featured image', 'awp-custom'),
+			'remove_featured_image'    => __('Remove featured image', 'awp-custom'),
+			'use_featured_image'       => __('Use featured image', 'awp-custom'),
+			'menu_name'                => sprintf(_x('%s', 'Menu Name', 'awp-custom'), $this->plural),
+			'name_admin_bar'           => sprintf(_x('%s', 'Admin Bar Name', 'awp-custom'), $this->singular),
+			'item_published'           => sprintf(__('%s published.', 'awp_custom'), $this->singular),
+			'item_published_privately' => sprintf(__('%s published privately.', 'awp_custom'), $this->singular),
+			'item_reverted_to_draft'   => sprintf(__('%s reverted to draft.', 'awp_custom'), $this->singular),
+			'item_scheduled'           => sprintf(__('%s scheduled.', 'awp_custom'), $this->singular),
+			'item_updated'             => sprintf(__('%s updated.', 'awp_custom'), $this->singular),
 		];
 	}
 
