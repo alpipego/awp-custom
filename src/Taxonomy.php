@@ -39,7 +39,7 @@ class Taxonomy extends AbstractCustom
 {
 	protected $taxonomy;
 	protected $objects;
-	protected $capability_type = 'term';
+	protected $capability_type = 'categories';
 	protected $map_meta_cap = false;
 
 	public function __construct(string $taxonomy, string $singular, string $plural, array $objects)
