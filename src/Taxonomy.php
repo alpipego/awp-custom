@@ -37,69 +37,69 @@ namespace Alpipego\AWP\Custom;
  */
 class Taxonomy extends AbstractCustom
 {
-	protected $taxonomy;
-	protected $objects;
-	protected $capability_type = 'categories';
-	protected $map_meta_cap = false;
+    protected $taxonomy;
+    protected $objects;
+    protected $capability_type = 'categories';
+    protected $map_meta_cap = false;
 
-	public function __construct(string $taxonomy, string $singular, string $plural, array $objects)
-	{
-		$this->taxonomy = $taxonomy;
-		$this->singular = $singular;
-		$this->plural   = $plural;
-		$this->objects  = $objects;
+    public function __construct(string $taxonomy, string $singular, string $plural, array $objects)
+    {
+        $this->taxonomy = $taxonomy;
+        $this->singular = $singular;
+        $this->plural   = $plural;
+        $this->objects  = $objects;
 
-		$this->labels       = $this->defaultLabels();
-		$this->capabilities = $this->defaultCaps();
-	}
+        $this->labels       = $this->defaultLabels();
+        $this->capabilities = $this->defaultCaps();
+    }
 
-	protected function defaultLabels() : array
-	{
-		return [
-			'name'                       => sprintf(_x('%s', 'Taxonomy General Name', 'tg'), $this->plural),
-			'singular_name'              => sprintf(_x('%s', 'Taxonomy Singular Name', 'tg'), $this->singular),
-			'search_items'               => sprintf(__('Search %s', 'tg'), $this->plural),
-			'popular_items'              => sprintf(__('Popular %s', 'tg'), $this->plural),
-			'all_items'                  => sprintf(__('All %s', 'tg'), $this->plural),
-			'parent_item'                => sprintf(__('Parent %s', 'tg'), $this->singular),
-			'parent_item_colon'          => sprintf(__('Parent %s:', 'tg'), $this->singular),
-			'edit_item'                  => sprintf(__('Edit %s', 'tg'), $this->singular),
-			'update_item'                => sprintf(__('Update %s', 'tg'), $this->singular),
-			'add_new_item'               => sprintf(__('Add New %s', 'tg'), $this->singular),
-			'new_item_name'              => sprintf(__('New %s Name', 'tg'), $this->singular),
-			'separate_items_with_commas' => sprintf(__('Separate %s with commas', 'tg'), $this->plural),
-			'add_or_remove_items'        => sprintf(__('Add or remove %s', 'tg'), $this->plural),
-			'choose_from_most_used'      => sprintf(__('Choose from the most used %s', 'tg'), $this->plural),
-			'not_found'                  => sprintf(__('No %s found.', 'tg'), $this->plural),
-			'menu_name'                  => sprintf(_x('%s', 'Taxonomy Menu Name', 'tg'), $this->plural),
-		];
-	}
+    protected function defaultLabels(): array
+    {
+        return [
+            'name'                       => sprintf(_x('%s', 'Taxonomy General Name', 'awp-custom'), $this->plural),
+            'singular_name'              => sprintf(_x('%s', 'Taxonomy Singular Name', 'awp-custom'), $this->singular),
+            'search_items'               => sprintf(__('Search %s', 'awp-custom'), $this->plural),
+            'popular_items'              => sprintf(__('Popular %s', 'awp-custom'), $this->plural),
+            'all_items'                  => sprintf(__('All %s', 'awp-custom'), $this->plural),
+            'parent_item'                => sprintf(__('Parent %s', 'awp-custom'), $this->singular),
+            'parent_item_colon'          => sprintf(__('Parent %s:', 'awp-custom'), $this->singular),
+            'edit_item'                  => sprintf(__('Edit %s', 'awp-custom'), $this->singular),
+            'update_item'                => sprintf(__('Update %s', 'awp-custom'), $this->singular),
+            'add_new_item'               => sprintf(__('Add New %s', 'awp-custom'), $this->singular),
+            'new_item_name'              => sprintf(__('New %s Name', 'awp-custom'), $this->singular),
+            'separate_items_with_commas' => sprintf(__('Separate %s with commas', 'awp-custom'), $this->plural),
+            'add_or_remove_items'        => sprintf(__('Add or remove %s', 'awp-custom'), $this->plural),
+            'choose_from_most_used'      => sprintf(__('Choose from the most used %s', 'awp-custom'), $this->plural),
+            'not_found'                  => sprintf(__('No %s found.', 'awp-custom'), $this->plural),
+            'menu_name'                  => sprintf(_x('%s', 'Taxonomy Menu Name', 'awp-custom'), $this->plural),
+        ];
+    }
 
-	protected function defaultCaps() : array
-	{
-		return [
-			'manage_terms' => 'manage_' . $this->capability_type,
-			'edit_terms'   => 'edit_' . $this->capability_type,
-			'delete_terms' => 'delete_' . $this->capability_type,
-			'assign_terms' => 'edit_posts',
-		];
-	}
+    protected function defaultCaps(): array
+    {
+        return [
+            'manage_terms' => 'manage_' . $this->capability_type,
+            'edit_terms'   => 'edit_' . $this->capability_type,
+            'delete_terms' => 'delete_' . $this->capability_type,
+            'assign_terms' => 'edit_posts',
+        ];
+    }
 
-	/**
-	 * @return \WP_Error|\WP_Taxonomy
-	 */
-	public function create()
-	{
-		if ($this->capability_type !== 'categories' && empty($this->capabilities)) {
-			$this->capabilities = $this->defaultCaps();
-			$this->map_meta_cap = true;
-		}
+    /**
+     * @return \WP_Error|\WP_Taxonomy
+     */
+    public function create()
+    {
+        if ($this->capability_type !== 'categories' && empty($this->capabilities)) {
+            $this->capabilities = $this->defaultCaps();
+            $this->map_meta_cap = true;
+        }
 
-		$taxonomy = register_taxonomy($this->taxonomy, $this->objects, $this->mapArgs());
-		if ( ! is_wp_error($taxonomy)) {
-			$taxonomy = get_taxonomy($this->taxonomy);
-		}
+        $taxonomy = register_taxonomy($this->taxonomy, $this->objects, $this->mapArgs());
+        if (!is_wp_error($taxonomy)) {
+            $taxonomy = get_taxonomy($this->taxonomy);
+        }
 
-		return $taxonomy;
-	}
+        return $taxonomy;
+    }
 }
